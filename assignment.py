@@ -37,35 +37,3 @@ def process_dict(dictionary):
     return output
 
 
-# setting up input and output directory
-input_folder = 'work/data'
-output_folder = 'work/schema'
-
-# List all JSON files in the input folder
-json_files = [filename for filename in os.listdir(input_folder) if filename.endswith('.json')]
-
-# Initialize a counter to match output files
-counter = 1
-
-# Loop through each JSON file
-for json_file in json_files:
-    input_file_path = os.path.join(input_folder, json_file)
-
-    with open(input_file_path) as data_file:
-        input_data = json.load(data_file)
-
-    message_data = input_data.get('message', {})
-    output_schema = process_dict(message_data)
-
-    # Generate the output schema file name with the counter
-    output_file_path = os.path.join(output_folder, f'schema_{counter}.json')
-
-    # Increment the counter for the next iteration
-    counter += 1
-
-    # Generating the Output JSON Schema
-    output_schema_json = json.dumps(output_schema, indent=4)
-
-    # Saving the Output JSON Schema
-    with open(output_file_path, 'w') as output_file:
-        output_file.write(output_schema_json)
